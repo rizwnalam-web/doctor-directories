@@ -9,6 +9,8 @@
     "server": "nodemon server/index.js",
     "client": "cd client && npm run dev",
     "build": "cd client && npm run build",
+    "start": "node server/index.js",
+    "deploy:prepare": "npm run build && echo 'Build complete. Ready for deployment.'",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
