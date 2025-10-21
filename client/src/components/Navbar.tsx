@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { Button } from './ui/button';
-import { User, LogOut, LayoutDashboard, Calendar, Stethoscope, Menu, X } from 'lucide-react';
+import { LogOut, LayoutDashboard, Stethoscope, Menu, X } from 'lucide-react';
 
 export default function Navbar() {
   const { user, logout } = useAuthStore();

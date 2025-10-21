@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge';
 import { Calendar, Users, Star, Plus, Trash2, Edit } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { getDayName, formatTime } from '../lib/utils';
+import { getDayName } from '../lib/utils';
 
 export default function DoctorDashboard() {
   const { user, fetchProfile } = useAuthStore();
