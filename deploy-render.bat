@@ -21,7 +21,7 @@ echo Step 3: Deploy Backend Service
 echo 1. Click "New +" -^> "Web Service" -^> Connect GitHub repo
 echo 2. Name: doctor-directories-backend
 echo 3. Runtime: Node
-echo 4. Build Command: npm install ^&^& npx prisma generate
+echo 4. Build Command: npm run deploy:backend
 echo 5. Start Command: npm start
 echo.
 
@@ -38,11 +38,10 @@ echo CLIENT_URL=https://doctor-directories-frontend.onrender.com
 echo.
 
 echo Step 5: Deploy Frontend Service
-echo 1. Click "New +" -^> "Web Service" -^> Connect GitHub repo
+echo 1. Click "New +" -^> "Static Site" -^> Connect GitHub repo
 echo 2. Name: doctor-directories-frontend
-echo 3. Runtime: Node
-echo 4. Build Command: npm run build
-echo 5. Start Command: npm start
+echo 3. Build Command: npm run build
+echo 4. Publish Directory: client/dist
 echo.
 
 echo Step 6: Frontend Environment Variables
@@ -58,6 +57,7 @@ echo.
 echo Expected Results:
 echo Frontend: https://doctor-directories-frontend.onrender.com
 echo Backend:  https://doctor-directories-backend.onrender.com
+echo Database: Auto-connected
 echo.
 
 echo Deployment Complete!

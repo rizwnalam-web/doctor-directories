@@ -1,66 +1,67 @@
 # ========================================
-# Render Deployment Blueprint
+# Render Deployment Instructions
 # ========================================
 #
-# MANUAL DEPLOYMENT (Recommended):
+# MANUAL DEPLOYMENT (RECOMMENDED):
 #
-# 1. Database: New + → PostgreSQL
-#    Name: doctor-directories-db
+# Step 1: Database
+# 1. Go to https://render.com
+# 2. New + → PostgreSQL
+# 3. Name: doctor-directories-db
+# 4. Note the DATABASE_URL
 #
-# 2. Backend: New + → Web Service
-#    Runtime: Node
-#    Build: npm install && npx prisma generate
-#    Start: npm start
-#    Environment Variables: See RENDER_DEPLOYMENT.md
+# Step 2: Backend Service
+# 1. New + → Web Service
+# 2. Connect your GitHub repository
+# 3. Name: doctor-directories-backend
+# 4. Runtime: Node
+# 5. Build Command: npm run deploy:backend
+# 6. Start Command: npm start
+# 7. Add environment variables (see below)
 #
-# 3. Frontend: New + → Web Service
-#    Runtime: Node
-#    Build: npm run build
-#    Start: npm start
-#    Environment Variables: See RENDER_DEPLOYMENT.md
+# Backend Environment Variables:
+# NODE_ENV=production
+# PORT=5000
+# DATABASE_URL=postgresql://... (from database)
+# JWT_SECRET=your-secret-here
+# EMAIL_HOST=smtp.gmail.com
+# EMAIL_PORT=587
+# EMAIL_USER=your-email@gmail.com
+# EMAIL_PASS=your-app-password
+# CLIENT_URL=https://doctor-directories-frontend.onrender.com
 #
-# AUTOMATIC DEPLOYMENT (Advanced):
-# This blueprint creates 3 services automatically
+# Step 3: Frontend Service
+# 1. New + → Static Site
+# 2. Connect your GitHub repository
+# 3. Name: doctor-directories-frontend
+# 4. Build Command: npm run build
+# 5. Publish Directory: client/dist
+# 6. Add environment variables (see below)
+#
+# Frontend Environment Variables:
+# REACT_APP_API_URL=https://doctor-directories-backend.onrender.com
+# NODE_ENV=production
+#
+# AUTOMATIC BLUEPRINT (Alternative):
+# If you want to use blueprint deployment, copy the
+# configuration from RENDER_DEPLOYMENT.md manually
+# into Render dashboard.
 
-services:
-  - type: pserv
-    name: doctor-directories-db
-
-  - type: web
-    name: doctor-directories-backend
-    runtime: node
-    buildCommand: npm install && npx prisma generate
-    startCommand: npm start
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: PORT
-        value: 5000
-      - key: DATABASE_URL
-        fromService:
-          type: pserv
-          name: doctor-directories-db
-          property: connectionString
-      - key: JWT_SECRET
-        generateValue: true
-      - key: EMAIL_HOST
-        value: smtp.gmail.com
-      - key: EMAIL_PORT
-        value: "587"
-      - key: EMAIL_USER
-        value: your-email@gmail.com  # REPLACE THIS
-      - key: EMAIL_PASS
-        value: your-app-password      # REPLACE THIS
-      - key: CLIENT_URL
-        value: https://doctor-directories-frontend.onrender.com
-
-  - type: web
-    name: doctor-directories-frontend
-    runtime: node
-    buildCommand: npm run build
-    startCommand: npm start
-    envVars:
-      - key: REACT_APP_API_URL
-        value: https://doctor-directories-backend.onrender.com
-      - key: NODE_ENV
-        value: production
+# ========================================
+# Environment Variables Template
+# ========================================
+#
+# Backend Variables:
+# - NODE_ENV: production
+# - PORT: 5000
+# - DATABASE_URL: (from PostgreSQL service)
+# - JWT_SECRET: (generate secure secret)
+# - EMAIL_HOST: smtp.gmail.com
+# - EMAIL_PORT: 587
+# - EMAIL_USER: your-email@gmail.com
+# - EMAIL_PASS: your-app-password
+# - CLIENT_URL: https://your-frontend-url.onrender.com
+#
+# Frontend Variables:
+# - REACT_APP_API_URL: https://your-backend-url.onrender.com
+# - NODE_ENV: production

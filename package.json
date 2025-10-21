@@ -10,7 +10,10 @@
     "client": "cd client && npm run dev",
     "build": "cd client && npm run build",
     "start": "node server/index.js",
+    "start:frontend": "cd client && npm run preview",
     "deploy:prepare": "npm run build && echo 'Build complete. Ready for deployment.'",
+    "deploy:backend": "npm install && npx prisma generate && npm start",
+    "deploy:frontend": "npm run build && npm run start:frontend",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
@@ -31,11 +34,11 @@
     "@prisma/client": "^5.7.1",
     "nodemailer": "^6.9.7",
     "multer": "^1.4.5-lts.1",
-    "date-fns": "^3.0.6"
+    "date-fns": "^3.0.6",
+    "concurrently": "^8.2.2"
   },
   "devDependencies": {
     "nodemon": "^3.0.2",
-    "prisma": "^5.7.1",
-    "concurrently": "^8.2.2"
+    "prisma": "^5.7.1"
   }
 }
