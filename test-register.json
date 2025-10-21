@@ -1,0 +1,16 @@
+{
+  "email": "test.doctor@example.com",
+  "password": "test123",
+  "firstName": "John",
+  "lastName": "Test",
+  "phone": "+1234567899",
+  "role": "DOCTOR",
+  "licenseNumber": "TEST-123",
+  "bio": "Experienced test doctor specializing in general medicine",
+  "yearsOfExperience": "5",
+  "consultationFee": "100",
+  "address": "123 Test Street",
+  "city": "Boston",
+  "state": "MA",
+  "zipCode": "02101"
+}

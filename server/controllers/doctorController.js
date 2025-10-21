@@ -1,3 +1,4 @@
+
 import prisma from '../config/db.js';
 
 export const searchDoctors = async (req, res) => {
@@ -73,9 +74,6 @@ export const searchDoctors = async (req, res) => {
               appointments: true
             }
           }
-        },
-        orderBy: {
-          createdAt: 'desc'
         }
       }),
       prisma.doctor.count({ where })
@@ -86,7 +84,7 @@ export const searchDoctors = async (req, res) => {
       const avgRating = doctor.reviews.length > 0
         ? doctor.reviews.reduce((sum, r) => sum + r.rating, 0) / doctor.reviews.length
         : 0;
-      
+
       const { reviews, ...doctorData } = doctor;
       return {
         ...doctorData,
@@ -171,7 +169,7 @@ export const getDoctors = async (req, res) => {
       const avgRating = doctor.reviews.length > 0
         ? doctor.reviews.reduce((sum, r) => sum + r.rating, 0) / doctor.reviews.length
         : 0;
-      
+
       const { reviews, ...doctorData } = doctor;
       return {
         ...doctorData,

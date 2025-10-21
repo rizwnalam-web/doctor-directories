@@ -10,7 +10,22 @@ export const register = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password, firstName, lastName, role, phone, licenseNumber } = req.body;
+    const { 
+      email, 
+      password, 
+      firstName, 
+      lastName, 
+      role, 
+      phone, 
+      licenseNumber,
+      bio,
+      yearsOfExperience,
+      consultationFee,
+      address,
+      city,
+      state,
+      zipCode
+    } = req.body;
 
     // Check if user exists
     const existingUser = await prisma.user.findUnique({ where: { email } });
@@ -39,7 +54,14 @@ export const register = async (req, res) => {
           doctor: {
             create: {
               licenseNumber: licenseNumber || `LIC-${Date.now()}`,
-              status: 'PENDING'
+              status: 'PENDING',
+              ...(bio && { bio }),
+              ...(yearsOfExperience && { yearsOfExperience: parseInt(yearsOfExperience) }),
+              ...(consultationFee && { consultationFee: parseFloat(consultationFee) }),
+              ...(address && { address }),
+              ...(city && { city }),
+              ...(state && { state }),
+              ...(zipCode && { zipCode })
             }
           }
         })
