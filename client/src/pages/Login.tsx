@@ -23,11 +23,11 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-gray-50 py-12 px-4">
+    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-gray-50 py-6 sm:py-12 px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Welcome Back</CardTitle>
-          <CardDescription className="text-center">
+          <CardTitle className="text-xl sm:text-2xl font-bold text-center">Welcome Back</CardTitle>
+          <CardDescription className="text-center text-sm sm:text-base">
             Enter your credentials to access your account
           </CardDescription>
         </CardHeader>
@@ -64,6 +64,12 @@ export default function Login() {
             <span className="text-gray-600">Don't have an account? </span>
             <Link to="/register" className="text-primary hover:underline font-medium">
               Sign up
+            </Link>
+          </div>
+
+          <div className="mt-4 text-center text-sm">
+            <Link to="/forgot-password" className="text-primary hover:underline font-medium">
+              Forgot your password?
             </Link>
           </div>
 

@@ -46,6 +46,7 @@ model User {
   // Relations
   patient       Patient?
   doctor        Doctor?
+  passwordResetTokens PasswordResetToken[]
   
   @@map("users")
 }
@@ -204,4 +205,17 @@ model Review {
   
   @@unique([patientId, doctorId])
   @@map("reviews")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  // Relations
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("password_reset_tokens")
 }
