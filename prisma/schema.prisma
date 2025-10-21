@@ -1,0 +1,207 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  GUEST
+  PATIENT
+  DOCTOR
+  ADMIN
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum DoctorStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+  SUSPENDED
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String
+  role          UserRole  @default(PATIENT)
+  firstName     String
+  lastName      String
+  phone         String?
+  avatar        String?
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  patient       Patient?
+  doctor        Doctor?
+  
+  @@map("users")
+}
+
+model Patient {
+  id                String        @id @default(uuid())
+  userId            String        @unique
+  dateOfBirth       DateTime?
+  gender            String?
+  address           String?
+  city              String?
+  state             String?
+  zipCode           String?
+  emergencyContact  String?
+  medicalHistory    String?
+  
+  // Relations
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  appointments      Appointment[]
+  reviews           Review[]
+  
+  @@map("patients")
+}
+
+model Doctor {
+  id                  String          @id @default(uuid())
+  userId              String          @unique
+  status              DoctorStatus    @default(PENDING)
+  licenseNumber       String          @unique
+  bio                 String?
+  yearsOfExperience   Int?
+  consultationFee     Float?
+  address             String?
+  city                String?
+  state               String?
+  zipCode             String?
+  latitude            Float?
+  longitude           Float?
+  
+  // Relations
+  user                User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  specializations     DoctorSpecialization[]
+  educations          Education[]
+  experiences         Experience[]
+  availabilities      Availability[]
+  appointments        Appointment[]
+  reviews             Review[]
+  
+  @@map("doctors")
+}
+
+model Specialization {
+  id          String                    @id @default(uuid())
+  name        String                    @unique
+  description String?
+  icon        String?
+  createdAt   DateTime                  @default(now())
+  
+  // Relations
+  doctors     DoctorSpecialization[]
+  
+  @@map("specializations")
+}
+
+model DoctorSpecialization {
+  id                String          @id @default(uuid())
+  doctorId          String
+  specializationId  String
+  isPrimary         Boolean         @default(false)
+  
+  // Relations
+  doctor            Doctor          @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  specialization    Specialization  @relation(fields: [specializationId], references: [id], onDelete: Cascade)
+  
+  @@unique([doctorId, specializationId])
+  @@map("doctor_specializations")
+}
+
+model Education {
+  id              String    @id @default(uuid())
+  doctorId        String
+  institution     String
+  degree          String
+  fieldOfStudy    String
+  startYear       Int
+  endYear         Int?
+  description     String?
+  
+  // Relations
+  doctor          Doctor    @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  
+  @@map("educations")
+}
+
+model Experience {
+  id              String    @id @default(uuid())
+  doctorId        String
+  hospital        String
+  position        String
+  startYear       Int
+  endYear         Int?
+  description     String?
+  
+  // Relations
+  doctor          Doctor    @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  
+  @@map("experiences")
+}
+
+model Availability {
+  id              String    @id @default(uuid())
+  doctorId        String
+  dayOfWeek       Int       // 0 = Sunday, 1 = Monday, etc.
+  startTime       String    // Format: "HH:mm"
+  endTime         String    // Format: "HH:mm"
+  isActive        Boolean   @default(true)
+  
+  // Relations
+  doctor          Doctor    @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  
+  @@map("availabilities")
+}
+
+model Appointment {
+  id              String              @id @default(uuid())
+  patientId       String
+  doctorId        String
+  appointmentDate DateTime
+  startTime       String              // Format: "HH:mm"
+  endTime         String              // Format: "HH:mm"
+  status          AppointmentStatus   @default(PENDING)
+  reason          String?
+  notes           String?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  
+  // Relations
+  patient         Patient             @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctor          Doctor              @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  
+  @@map("appointments")
+}
+
+model Review {
+  id              String    @id @default(uuid())
+  patientId       String
+  doctorId        String
+  rating          Int       // 1-5
+  comment         String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  // Relations
+  patient         Patient   @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctor          Doctor    @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  
+  @@unique([patientId, doctorId])
+  @@map("reviews")
+}
