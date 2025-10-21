@@ -2,8 +2,12 @@
 node_modules/
 client/node_modules/
 
-# Environment variables
+# Environment variables (all variants)
 .env
+.env.local
+.env.development
+.env.production
+.env.test
 
 # Build output
 client/dist/
@@ -29,3 +33,7 @@ uploads/
 
 # Prisma
 prisma/migrations/
+
+# Temporary files
+*.tmp
+*.temp
