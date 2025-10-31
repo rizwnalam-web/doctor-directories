@@ -12,13 +12,13 @@ export const register = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { 
-      email, 
-      password, 
-      firstName, 
-      lastName, 
-      role, 
-      phone, 
+    const {
+      email,
+      password,
+      firstName,
+      lastName,
+      role,
+      phone,
       licenseNumber,
       bio,
       yearsOfExperience,
@@ -211,19 +211,47 @@ export const updateProfile = async (req, res) => {
 
 export const requestPasswordReset = async (req, res) => {
   try {
+    console.log('Password reset request received for:', req.body);
     const { email } = req.body;
 
     if (!email) {
+      console.log('Email missing in request');
       return res.status(400).json({ message: 'Email is required' });
     }
 
+    // Validate email configuration
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+      console.error('Email configuration missing:', {
+        hasUser: !!process.env.EMAIL_USER,
+        hasPassword: !!process.env.EMAIL_PASSWORD
+      });
+      throw new Error('Email service not configured');
+    }
+
     // Find user by email
-    const user = await prisma.user.findUnique({ where: { email } });
+    console.log('Looking up user:', email);
+    const user = await prisma.user.findUnique({
+      where: { email },
+      select: {
+        id: true,
+        email: true,
+        isActive: true
+      }
+    });
 
     if (!user) {
+      console.log('User not found:', email);
       // For security, don't reveal if email exists or not
       return res.json({ message: 'If an account with that email exists, you will receive a password reset link shortly.' });
     }
+
+    if (!user.isActive) {
+      console.log('Inactive user attempted reset:', email);
+      return res.json({ message: 'If an account with that email exists, you will receive a password reset link shortly.' });
+    }    // Delete any existing reset tokens for this user
+    await prisma.passwordResetToken.deleteMany({
+      where: { userId: user.id }
+    });
 
     // Generate reset token
     const resetToken = crypto.randomBytes(32).toString('hex');

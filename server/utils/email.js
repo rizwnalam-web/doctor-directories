@@ -2,18 +2,28 @@
 import nodemailer from 'nodemailer';
 
 // Create transporter (configure with your email service)
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-  port: process.env.EMAIL_PORT || 587,
-  secure: false, // true for 465, false for other ports
-  auth: {
-    user: process.env.EMAIL_USER, // Your email address
-    pass: process.env.EMAIL_PASS || process.env.EMAIL_PASSWORD // Your email password or app password
-  },
-  tls: {
-    ciphers: 'SSLv3'
+const createTransporter = () => {
+  // Validate required environment variables
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+    throw new Error('Email configuration is missing. Please check EMAIL_USER and EMAIL_PASSWORD in .env');
   }
-});
+
+  return nodemailer.createTransport({
+    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+    port: parseInt(process.env.EMAIL_PORT || '587'),
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD
+    },
+    tls: {
+      rejectUnauthorized: true,
+      minVersion: "TLSv1.2"
+    }
+  });
+};
+
+const transporter = createTransporter();
 
 export const sendPasswordResetEmail = async (email, resetToken) => {
   try {

@@ -1,0 +1,15 @@
+{
+    "watch": [
+        "server/**/*"
+    ],
+    "ignore": [
+        "**/*.test.js",
+        "**/*.spec.js",
+        "node_modules",
+        "client/**/*",
+        ".git",
+        "uploads/**/*"
+    ],
+    "ext": "js,json,env",
+    "delay": "2000"
+}
