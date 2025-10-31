@@ -2,50 +2,23 @@
   "name": "doctor-directories",
   "version": "1.0.0",
   "description": "Comprehensive doctor directories platform with appointment booking",
-  "main": "server/index.js",
-  "type": "module",
+  "private": true,
   "scripts": {
-    "dev:server": "nodemon server/index.js",
-    "dev:client": "cd client && npm run dev",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "install:deps": "npm install",
+    "install:server": "cd server && npm install --legacy-peer-deps",
+    "install:client": "cd client && npm install --legacy-peer-deps",
+    "install:all": "npm run install:deps && npm run install:server && npm run install:client",
     "build": "cd client && npm run build",
-    "start": "node server/index.js",
-    "start:frontend": "cd client && npm run preview",
+    "start:server": "cd server && npm start",
+    "start:client": "cd client && npm run preview",
     "deploy:prepare": "npm run build && echo 'Build complete. Ready for deployment.'",
-    "deploy:backend": "npm install && npx prisma generate && npm start",
-    "deploy:frontend": "npm run build && npm run start:frontend",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
-    "prisma:studio": "prisma studio",
-    "seed": "node server/seed.js"
+    "deploy:backend": "cd server && npm install && npm run prisma:generate && npm start",
+    "deploy:frontend": "cd client && npm run build && npm run preview"
   },
-  "keywords": [
-    "doctor",
-    "healthcare",
-    "appointment",
-    "booking"
-  ],
-  "author": "",
-  "license": "MIT",
   "dependencies": {
-    "@prisma/client": "^5.7.1",
-    "bcryptjs": "^2.4.3",
-    "concurrently": "^8.2.2",
-    "cors": "^2.8.5",
-    "date-fns": "^3.0.6",
-    "dotenv": "^16.3.1",
-    "express": "^5.1.0",
-    "express-rate-limit": "^7.1.5",
-    "express-validator": "^7.0.1",
-    "finalhandler": "^2.1.0",
-    "helmet": "^7.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "multer": "^1.4.5-lts.1",
-    "nodemailer": "^6.9.7",
-    "unpipe": "^1.0.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.2",
-    "prisma": "^5.7.1"
+    "concurrently": "^8.2.2"
   }
 }

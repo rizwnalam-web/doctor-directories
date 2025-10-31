@@ -1,0 +1,13 @@
+{
+    "watch": [
+        "**/*"
+    ],
+    "ignore": [
+        "**/*.test.js",
+        "**/*.spec.js",
+        "node_modules",
+        ".git",
+        "uploads/**/*"
+    ],
+    "ext": "js,json,env"
+}
