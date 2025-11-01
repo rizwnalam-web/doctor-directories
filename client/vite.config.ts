@@ -8,6 +8,6 @@ export default defineConfig({
     sourcemap: false
   },
   define: {
-    'process.env.VITE_API_URL': JSON.stringify('https://doctor-directories.onrender.com')
+    'process.env.VITE_API_URL': JSON.stringify('https://doctor-directories-server.onrender.com/api')
   }
 })
