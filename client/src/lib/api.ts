@@ -6,7 +6,7 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
   timeout: 10000, // 10 second timeout
-  withCredentials: true, // Important for CORS
+  withCredentials: false // Changed to false since we're using token-based auth
 });
 
 // Request interceptor to add auth token
