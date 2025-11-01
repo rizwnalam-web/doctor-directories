@@ -11,18 +11,9 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: false,
-    rollupOptions: {
-      output: {
-        manualChunks: undefined
-      }
-    }
+    sourcemap: false
   },
   define: {
-    'process.env.VITE_API_URL': JSON.stringify('https://doctor-directories-server.onrender.com/api')
-  },
-  server: {
-    port: 5173,
-    host: true
+    'process.env.VITE_API_URL': JSON.stringify('https://doctor-directories-server.onrender.com')
   }
 })
