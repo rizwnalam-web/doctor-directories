@@ -187,6 +187,7 @@ model Appointment {
   patient         Patient             @relation(fields: [patientId], references: [id], onDelete: Cascade)
   doctor          Doctor              @relation(fields: [doctorId], references: [id], onDelete: Cascade)
   
+  @@unique([patientId, doctorId, appointmentDate])
   @@map("appointments")
 }
 
