@@ -8,7 +8,8 @@
         "dev": "nodemon index.js",
         "start": "node index.js",
         "migrate": "node migrate-neon.js",
-        "seed": "node seed.js"
+        "seed": "node seed.js",
+        "build": "echo 'No build step needed for server'"
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",
