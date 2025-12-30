@@ -1,13 +1,4 @@
-import pkg from '@prisma/client';
-const { PrismaClient } = pkg;
+// Deprecated: Use database.js for native PostgreSQL connection
+import db from './database.js';
 
-const prisma = new PrismaClient({
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-});
-
-// Handle graceful shutdown
-process.on('beforeExit', async () => {
-  await prisma.$disconnect();
-});
-
-export default prisma;
+export default db;
